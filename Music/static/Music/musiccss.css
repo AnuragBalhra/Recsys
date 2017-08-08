@@ -1,0 +1,24 @@
+.player{
+  display:block;
+  position:fixed;
+  bottom:0px;
+  width:100%;
+  padding:0px;
+  margin:0px;
+  opacity:0.9;
+}
+.player span{
+  font-weight: bold;
+  padding:20%;
+}
+.player audio{
+  padding:0px;
+  width:100%;
+  opacity:transparent;
+}
+
+.song{
+  cursor:pointer;
+  line-height:30px;
+  font-size:0.9em;
+}

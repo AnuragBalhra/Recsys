@@ -1,0 +1,105 @@
+{% extends "includes/base.html" %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block maincontent %}
+{% load staticfiles %}
+{% load static %}
+<script type="text/javascript" src="{% static 'trendy/js/jquery.min.js' %}"></script>
+{% csrf_token %}
+<script> 
+var csrftoken = $('input[name=csrfmiddlewaretoken]').attr('value');
+$( document ).ready(function() {
+    // console.log(csrftoken);
+    $(window).load(function(){
+          fetchResults('popular', 'popular');
+          fetchResults('cf', 'cf');
+          fetchResults('optimised', 'optimised');
+
+    });
+    function fetchResults(type, div){
+          var url = 'update/?q='+type;
+          div = "."+div;
+
+          var data = { 'csrfmiddlewaretoken' : csrftoken}
+          
+          $.post( url, data)
+          .done(function( data ) {
+            var src_path="{% static 'Music/Songs/' %}";
+            var json = $.parseJSON(data);
+            $.each(json, function(key,obj){
+              // obj format {model:"Music.song", pk:"<pk>", fields:{song_name:"<song_name>"}}
+              // console.log(obj.fields);
+              var src = src_path + obj.fields.song_name;
+              var s = "<div class=\"song\" value='"+src+"' song_id=\""+obj.pk+"\">"+obj.pk+" <b>"+obj.fields.song_name+"</b></div><br>";
+              // var s="<audio controls><source src='" +src+ "' type='audio/mpeg'>Your browser does not support the audio element.</audio>"+obj+"<br>";
+              $( div ).append( s );
+              // console.log(s);
+              // console.log(obj);
+            });
+            
+          });
+    }
+
+    $(".result").on("click",".song",function(){
+      var src = $(this).attr('value');
+      var song_id = $(this).attr('song_id');
+      record(song_id);
+      // alert(song_id);
+      // var src= "asd";
+      // alert("asd");
+      console.log(" playing id="+song_id);
+        var s = "<audio class=\"audiotrack\"controls=\"controls\" autoplay=\"true\"><source src='" +src+ "' type='audio/mpeg' song_id='"+song_id+"'>Your browser does not support the audio element.</audio><br>";
+        $(".player").html(s);
+    });
+
+    console.log( "ready!" );
+    $( window ).unload(function() {
+      record(); 
+    });
+});
+
+function record(next_song){
+    var csrftoken = $('input[name=csrfmiddlewaretoken]').attr('value');
+    // console.log(csrftoken);
+    var url = 'record/';
+    var song_id = $('source' ).attr('song_id');
+    // var per=100;
+    var per = ($(".audiotrack").prop("currentTime") / $("audio")[0].duration)*100;
+    // alert(per);
+    var data = { 'csrfmiddlewaretoken' : csrftoken, 'song_id':song_id, 'per':per, 'next_song':next_song}
+    // console.log(data);
+    $.post( url, data).done(function(data){console.log(data);});
+
+}
+
+</script>
+<div class="row">
+  
+  <div class="popular result col l4 m4 s12">
+  <h5>Popular Songs:</h5><br>
+  </div>
+  <div class="cf result col l4 m4 s12">
+  <h5>Colaborative Filtering:</h5><br>
+  </div>
+  <div class="optimised result col l4 m4 s12">
+  <h5>Optimised CF:</h5><br>
+  </div>
+
+  
+</div>
+
+<div class="player" style="display:block;position:fixed;bottom:0px;width:100%;height:auto;">
+<audio class="audiotrack" controls="controls" autoplay="true"><source src="" type='audio/mpeg' song_id="">Your browser does not support the audio element.</audio><br>
+</div>
+
+<style>
+.player audio{
+  background:red;
+  height:auto;
+  width:100%;
+}
+
+</style>
+
+{% endblock %}

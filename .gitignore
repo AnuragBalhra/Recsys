@@ -1,0 +1,16 @@
+# auto-compiled python files
+__pycache__/
+*.pyc
+
+# media files
+media/
+
+# database files
+*.sqlite3
+.fuse*
+
+# migraton files
+migrations/
+
+#Android Files
+AndroidApp/

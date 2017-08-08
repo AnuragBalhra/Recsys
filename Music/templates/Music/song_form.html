@@ -1,0 +1,29 @@
+{% extends "includes/base.html" %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block maincontent %}
+
+<div class="row container valign-wrapper" style="margin-top:10%;">
+
+<div class="col m4 l4 s12">
+
+<h3><blockquote class="green-text">Add Song</blockquote></h3>
+</div>
+<br>
+
+<div class="col m8 l8 s12">
+
+<form name='form' method="POST" action = "{% url 'Music:add' %}?next={{next}}" enctype="multipart/form-data">
+{% csrf_token %}
+{{form.as_p}}
+
+<br>
+  <button class="btn blue darken-4 waves-effect waves-light" type="submit" name="action">Submit
+    <i class="material-icons right">send</i>
+  </button>
+        
+</form>
+</div>
+</div>
+{%endblock%}

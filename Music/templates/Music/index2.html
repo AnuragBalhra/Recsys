@@ -1,0 +1,144 @@
+{% extends "includes/base.html" %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block maincontent %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'Music/musiccss.css' %}"></script>
+{% csrf_token %}
+<div class ="section row">
+    <div class="col m4 l4 s12">
+      {% block SuggestedSongs %} 
+        <div class="row ">
+            
+            <div class="cf result col l6 m6 s12">
+                {% if user.is_authenticated %}
+                  {% if cf %}
+                    <table class="bordered highlight centered ">
+                    <thead><tr><th>Colaborative Filtering:</th></tr></thead>
+                    <tbody>
+                      {%for song in cf %}
+                          <tr>
+                          <td><div class="song" value='{{song.song_file.url}}' song_id="{{song.pk}}">   {{song.song_name}}</div></td>
+                          </tr>
+                      {%endfor%}
+                    </tbody>
+                    </table>
+                    
+                  {% else %}
+                      <b>No suggestion for you :-( <b>
+                  {% endif %}
+
+                {% else %}
+                  <b><a href = "{%url 'accounts:login' %}" >Log In </a> for personalised suggestions</b>
+                <!-- 
+                <div class="optimised result col l4 m4 s12">
+                <h5>Optimised CF:</h5><br>
+                {%for song in ocf %}
+                    <div class="song" value='{{song.song_file.url}}' song_id="{{song.pk}}"> <b>{{song.song_name}}</b></div><br>
+                {%endfor%}
+                </div>
+                 -->
+                {% endif %}
+            </div>
+
+
+            <div class="popular result col l6 m6 s12">
+            
+            {% if popular %}
+             
+            <table class="bordered highlight centered ">
+            <thead><tr><th>Popular Songs:</th></tr></thead>
+            <tbody>
+              {%for song in popular %}
+                  <tr>
+                  <td><div class="song" value='{{song.song_file.url}}' song_id="{{song.pk}}">   {{song.song_name}}</div></td>
+                  </tr>
+              {%endfor%}
+            </tbody>
+            </table>
+            {% else %}
+              <b>Nothing is popular in this country :-(</b>
+            {% endif %}
+            </div>
+            
+          </div>
+          {% endblock %}
+    </div>
+    <div class="col result m2 l2 s12">
+    {% block AllSongs %}
+      {% if object_list %}
+      <table class="bordered highlight centered ">
+      <thead><tr><th>All Songs:</th></tr></thead>
+      <tbody>
+        {%for song in object_list %}
+            <tr>
+            <td><div class="song" value='{{song.song_file.url}}' song_id="{{song.pk}}">   {{song.song_name}}</div></td>
+            </tr>
+        {%endfor%}
+      </tbody>
+      </table>
+      
+      {% else %}
+          <b>This world is running out of Good Music :-P </b>
+      {% endif %}
+      {% endblock %}
+    </div>
+    <div class="col m6 l6 s12">
+        {% block CurrentSong %}
+        <div class= "row">
+          
+              <div class="card white darken-1 details large">
+                {% if not curr %}
+                  <div class='error'>Nothing To Play Come Back Later...</div>
+                {% else %}
+
+                <div class="card-content ">
+                  <span class="card-title center" style="font-size:3em;margin:20px;">{{curr.song_name}}</span>
+                  <table class="centered responsive-table">
+                    <thead>
+                    <tr>
+                      {% for key, val in curr.attrs %}
+                        <th >{{key}}</th>
+                      {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr >
+                      {% for key, val in curr.attrs %}
+                        <td ><small>{{val}}</small></td>
+                      {% endfor %}
+                    </tr>
+                    </tbody>
+                    </table>
+                    
+                </div>
+                <div class="card-action">
+                  <a href="#">Currently Playing...</a>
+                </div>
+                {% endif %}
+              </div>
+        </div>
+        {% endblock %}
+        
+    </div>
+    
+</div>  
+
+<a class="btn-floating btn-large waves-effect waves-light red" style="position:fixed;bottom:10%;right:2%;" href="{% url 'Music:add' %}"><i class="material-icons">add</i></a>
+
+<div class="player row">
+<div class="col l1 m4 s12">
+<span>{{curr}} </span>
+</div>
+<div class="col l11 m8 s12">
+<audio class="audiotrack" controls="controls" autoplay="true">
+<source src="{{curr.song_file.url}}" type='audio/mpeg' song_id="{{curr.song_id}}" next_song_id="{% if not cf %}{{object_list.first.song_id}}{%else%}{{cf.0.song_id}}{%endif%}">
+Your browser does not support the audio element.</audio><br>
+</div>
+</div>
+
+<script type="text/javascript" src="{% static 'Music/musicjs.js' %}"></script>
+
+{% endblock %}

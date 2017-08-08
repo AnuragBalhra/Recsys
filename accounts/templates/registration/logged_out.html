@@ -1,0 +1,18 @@
+{% extends "includes/base.html" %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block maincontent %}
+
+<div class="section container">
+<h4><blockquote class="green-text">Sucessfully Logged Out</blockquote></h4>
+
+<a href = "{%url 'accounts:login' %} " class="pulse btn blue darken-4">
+	Log In again... 
+    <i class="material-icons right">send</i>
+</a>
+
+</div>
+</form>
+
+{%endblock%}

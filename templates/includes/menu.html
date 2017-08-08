@@ -1,0 +1,56 @@
+
+{% block menu %}
+
+{% if request.user.is_authenticated %}
+	<!-- <div class="navbar-fixed"> -->
+	<!-- Using both Navbar-fixed and side-nav causes unexpected results  -->
+	<nav >
+	<div class="nav-wrapper blue darken-4">
+	  <a href="{% url 'index' %}" class="brand-logo center">RecSys</a>
+	  <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      
+	  <ul id="nav-mobile" class="right hide-on-med-and-down">
+	    {% if user.is_staff %}<li><a href="{% url 'admin:index' %}">Admin</a></li>{% endif %}
+	    <li><a href="{% url 'accounts:dashboard' %}">Dashboard</a></li>
+	    <li><a href="{% url 'accounts:profile' request.user.pk %}">Profile</a></li>
+	    <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+	  </ul>
+	  <ul id="nav-mobile" class="left hide-on-med-and-down">
+	    <li><a href="{% url 'Music:music' %}">Music</a></li>
+	  </ul>
+
+	  <ul class="side-nav" id="mobile-demo">
+        {% if user.is_staff %}<li><a href="{% url 'admin:index' %}">Admin</a></li>{% endif %}
+		<li><a href="{% url 'Music:music' %}">Music</a></li>
+  	    <li><a href="{% url 'accounts:dashboard' %}">Dashboard</a></li>
+	    <li><a href="{% url 'accounts:profile' request.user.pk %}">Profile</a></li>
+	    <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+      </ul>
+	</div>
+	</nav>
+	<!-- </div> -->
+{% else %}
+	<!-- <div class="navbar-fixed"> -->
+	<nav >
+	<div class="nav-wrapper blue darken-4">
+	  <a href="{% url 'index' %}" class="brand-logo center">RecSys</a>
+	  <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+	  <ul id="nav-mobile" class="right hide-on-med-and-down">
+	    <li><a href="{% url 'accounts:login' %}">Login</a></li>
+	    <li><a href="{% url 'accounts:signup' %}">Signup</a></li>
+	  </ul>
+	  <ul id="nav-mobile" class="left hide-on-med-and-down">
+	    <li><a href="{% url 'Music:music' %}">Music</a></li>
+	  </ul>
+
+	  <ul class="side-nav" id="mobile-demo">
+		<li><a href="{% url 'Music:music' %}">Music</a></li>
+	  	<li><a href="{% url 'accounts:login' %}">Login</a></li>
+	    <li><a href="{% url 'accounts:signup' %}">Signup</a></li>
+      </ul>
+	</div>
+	</nav>
+	<!-- </div> -->
+{% endif %}	
+ 
+{% endblock %}

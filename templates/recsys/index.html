@@ -1,0 +1,45 @@
+{% extends "includes/base.html" %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block maincontent %}
+
+
+{% load static %}
+
+<div class="row container">
+<div class="col s12 m6 center">
+    <div class="card horizontal">
+      <div class="card-image ">
+        <img src="{% static 'Music/images/account.png' %}" class="responsive-img">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content ">
+        <h4>Accounts</h4>
+          <p>Manage Accounts</p>
+        </div>
+        <div class="card-action">
+          <a href="{% url 'accounts:login' %}">Go to Accounts App... </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="col s12 m6 center">
+    <div class="card horizontal">
+      <div class="card-image ">
+        <img src="{% static 'Music/images/music.jpg' %}" class="responsive-img">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content">
+        <h4>Music</h4>
+          <p>Find your favourite music.</p>
+        </div>
+        <div class="card-action">
+          <a href="{%url 'Music:music' %}">Go to Music App... </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+{% endblock %}

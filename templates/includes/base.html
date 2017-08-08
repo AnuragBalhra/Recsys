@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html lang="en">
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+
+
+{% load static %}
+<!-- favicon Icon for the site -->
+<link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}"/>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css"> -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/materialize.min.css' %}" />
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" /> -->
+
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script> -->
+<script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body >
+
+<div id="progress_bar_container">
+  <div class="progress">
+      <div class="indeterminate"></div>
+  </div>
+</div>
+
+<style>
+  #progress_bar_container{
+    background:#eee;
+    position:fixed;
+    width:100%;
+    height:100%;
+  }
+  #progress_bar_container .progress{
+    position:relative;
+    width:40%;
+    top:40%;
+    left:30%;
+  }
+</style>
+<script>
+$(document).ready(function(){
+    // alert("loaded");
+$('#progress_bar_container').fadeOut(100);
+});
+</script>
+    {% block menu %}
+    {% include "includes/menu.html" %}
+    {% endblock %}
+    
+    {% block content %}
+    {% block sidenav %}
+    {% endblock %}
+    {% block maincontent %}
+    {% endblock %}
+    {% endblock %}
+
+    {% block footer %}
+<!-- 
+        <footer class="page-footer black" style="position:ablolute;bottom:0px;width:100%;">
+          
+          <div class="footer-copyright">
+            <div class="container" style="text-align: center;">
+            <div class="right">Made by <b>Anurag : B15CS041</b>
+            </div>
+            </div>
+          </div>
+        </footer>
+ -->
+    
+    {% endblock %}
+
+
+<!-- Required JS files -->
+<script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>
